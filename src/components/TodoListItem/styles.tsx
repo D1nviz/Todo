@@ -3,28 +3,30 @@ import styled from "styled-components";
 export const ItemsContainer = styled.div`
 	margin: 0 auto;
 	width: 390px;
+	background-color: #272626;
+	padding: 0 15px;
+	border-radius: 40px;
 `;
 export const Item = styled.div`
+	margin-top: 10px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 `;
-export const Text = styled.p``;
+export const Text = styled.p`
+font-size: 18px;
+`;
 export const Tools = styled.div`
-	width: 110px;
+	width: 80px;
 	display: flex;
 	justify-content: space-between;
 `;
 export const Tool = styled.button`
-	width: 50px;
-	height: 50px;
+	width: 30px;
+	height: 40px;
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 1em;
 	border: 0px solid transparent;
-	background-color: rgba(100, 77, 237, 0.08);
+	background-color: inherit;
 	border-radius: 1.25em;
 	transition: all .2s linear;
 	cursor: pointer;

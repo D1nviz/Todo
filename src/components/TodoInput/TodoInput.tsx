@@ -1,19 +1,42 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
+import { Form, Formik } from "formik";
+import { v4 as uuidv4 } from 'uuid';
+import * as Yup from "yup";
 import { Input, InputContainer, InputLabel } from "./styles";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { todoCreated } from "../../Store/reducers/TodoSlice";
+
 
 const TodoInput: FC = () => {
-  const [value, setValue] = useState<string>("");
-  const changHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
+  const dispatch = useAppDispatch();
 	return (
 		<InputContainer>
-			<InputLabel>
-				<Input 
-          value={value}
-          onChange={changHandler}
-          placeholder="Add new Todo!" />
-			</InputLabel>
+			<Formik 
+        initialValues={{
+          todo: ""
+        }}
+        validationSchema={Yup.object({
+          todo: Yup.string()
+          .min(2, "Min 2 letters")
+          .required("Обязательное поле")
+        })}
+        onSubmit={(todo) => {
+          dispatch(todoCreated({
+            id: uuidv4(),
+            todo: todo.todo
+          }));
+         
+        }}>
+				<Form>
+					<InputLabel>
+						<Input
+							name="todo"
+							id="todo"
+							placeholder="Add new Todo!"
+						/>
+					</InputLabel>
+				</Form>
+			</Formik>
 		</InputContainer>
 	);
 };

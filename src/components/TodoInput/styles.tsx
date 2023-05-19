@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { Form, Field} from "formik";
 export const InputContainer = styled.div`
 	margin: 20px auto;
 	width: 100%;
@@ -7,7 +7,7 @@ export const InputContainer = styled.div`
 	justify-content: center;
 `;
 
-export const Input = styled.input`
+export const Input = styled(Field)`
 	min-width: 400px;
 	padding: 10px;
 	border-radius: 40px;
