@@ -32,16 +32,28 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     todoCreated: (state, action) => {
-      
+      state.todos.push(action.payload);
+      console.log(state)
     },
     todoDeleted: (state, action) => {
-      /* todosAdapter.removeOne(state, action.payload) */
+      state.todos = state.todos.filter(item => item.id !== action.payload);
+      console.log("todo deleted");
+    },
+    todoCompleted: (state, action) => {
+      const { id, isCompleted } = action.payload;
+      const todo = state.todos.find(todo => todo.id === id);
+      if (todo) {
+        Object.assign(todo, { isCompleted });
+      }
     },
     todoRedacted: (state, action) => {
       /* todosAdapter.updateOne(state, action.payload) */
     }
   }
 })
-const {actions, reducer} = todoSlice;
-export const {todoCreated, todoDeleted} = actions;
-export default todoSlice.reducer;
+export const { actions, reducer } = todoSlice;
+export const {
+  todoCreated,
+  todoDeleted,
+  todoCompleted,
+  todoRedacted } = actions;

@@ -21,9 +21,14 @@ code {
     monospace;
 }
 .wrapper {
-  max-width: 500px;
+  max-width:440px;
   border-radius: 45px;
   margin: 30px auto;
   padding: 30px;
-  background-color: rgb(21, 21, 21);
+  background-color: rgb(24, 24, 24);
 }
+
+
+
+
+

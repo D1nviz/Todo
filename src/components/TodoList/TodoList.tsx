@@ -1,19 +1,16 @@
-import React, {FC} from "react";
+import { FC } from "react";
 import TodoListItem from "../TodoListItem/TodoListItem";
 import { useAppSelector } from "../../hooks/redux";
-import { useSelector } from "react-redux";
-import { TodoState } from "../../Store/reducers/TodoSlice";
 
-
-
-const TodoList:FC = () => {
-  const todos:TodoState = useSelector((state:any) => state.todoReducer.todos );
-  console.log(todos);
-  return (
-    <div>
-      
-    </div>
-  )
+const TodoList: FC = () => {
+	const todos = useAppSelector((state) => state.reducer.todos);
+	return (
+		<div>
+			{todos.map((todo) => (
+				<TodoListItem key={todo.id} todo={todo}></TodoListItem>
+			))}
+		</div>
+	);
 };
 
 export default TodoList;

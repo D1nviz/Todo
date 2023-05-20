@@ -1,22 +1,39 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import { ItemsContainer, Item, Tool, Tools, Text } from "./styles";
-import { HiOutlineTrash } from "react-icons/hi";
 import { IoCloseSharp } from "react-icons/io5";
 import { BiPencil } from "react-icons/bi";
-interface TodoListItemsProps{
-	todos: string
+import { useAppDispatch } from "../../hooks/redux";
+import { todoDeleted, todoCompleted } from "../../Store/reducers/TodoSlice";
+import { ITodo } from "../../models/ITodo";
+
+interface TodoListItemProps {
+	todo: ITodo;
 }
-const TodoListItem: FC<TodoListItemsProps> = ({todos}) => {
+const TodoListItem: FC<TodoListItemProps> = ({ todo }) => {
+	const dispatch = useAppDispatch();
+	const { id, task, isCompleted } = todo;
+
+	const completeHandler = (todo:ITodo) => {
+		const complete = {
+			...todo, 
+			isCompleted: !isCompleted
+		}
+		dispatch(todoCompleted(complete))
+	}
+
 	return (
 		<ItemsContainer>
 			<Item>
-				<Text>{todos}</Text>
+				<Text 
+					onClick={() => completeHandler(todo)  }
+					isCompleted={isCompleted}
+				>{task}</Text>
 				<Tools>
 					<Tool>
 						<BiPencil size="40px" color="#6361D9" />
 					</Tool>
-					<Tool>
-						<IoCloseSharp color="red" size="40px" />
+					<Tool onClick={() => dispatch(todoDeleted(id))}>
+						<IoCloseSharp color="#da3a3a" size="40px" />
 					</Tool>
 				</Tools>
 			</Item>
