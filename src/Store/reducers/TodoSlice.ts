@@ -16,12 +16,12 @@ const initialState: TodoState = {
     },
     {
       id: uuidv4(),
-      task: "Do homework",
+      task: "Make money",
       isCompleted: true,
     },
     {
       id: uuidv4(),
-      task: "Do homework",
+      task: "Make dinner",
       isCompleted: false,
     }
   ]

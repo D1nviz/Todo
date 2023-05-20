@@ -4,7 +4,7 @@ interface ITextProps {
 }
 export const ItemsContainer = styled.div`
 	margin: 0 auto;
-	width: 390px;
+	width: 100%;
 	background-color: #272626;
 	padding: 0 15px;
 	border-radius: 40px;

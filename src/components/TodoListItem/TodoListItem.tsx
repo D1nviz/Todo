@@ -13,7 +13,7 @@ const TodoListItem: FC<TodoListItemProps> = ({ todo }) => {
 	const dispatch = useAppDispatch();
 	const { id, task, isCompleted } = todo;
 
-	const completeHandler = (todo:ITodo) => {
+	const completeHandler = (e: React.MouseEvent<HTMLParagraphElement>) => {
 		const complete = {
 			...todo, 
 			isCompleted: !isCompleted
@@ -25,12 +25,12 @@ const TodoListItem: FC<TodoListItemProps> = ({ todo }) => {
 		<ItemsContainer>
 			<Item>
 				<Text 
-					onClick={() => completeHandler(todo)  }
+					onClick={completeHandler}
 					isCompleted={isCompleted}
 				>{task}</Text>
 				<Tools>
 					<Tool>
-						<BiPencil size="40px" color="#6361D9" />
+						<BiPencil size="40px" color="#8361d9" />
 					</Tool>
 					<Tool onClick={() => dispatch(todoDeleted(id))}>
 						<IoCloseSharp color="#da3a3a" size="40px" />

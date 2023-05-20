@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Field } from "formik";
+import { Field, ErrorMessage } from "formik";
 export const InputContainer = styled.div`
 	margin: 20px auto;
 	width: 100%;
@@ -15,7 +15,7 @@ export const InputBorder = styled.span`
   bottom: 0;
   left: 0;
   height: 3px;
-  background: linear-gradient(90deg, #FF6464 0%, #FFBF59 50%, #47C9FF 100%);
+  background: linear-gradient(90deg, #da3a3a 0%,   #8361d9 100%);
   transition: width 0.4s cubic-bezier(0.42, 0, 0.58, 1.00);
 `;
 export const Input = styled(Field)`
@@ -35,9 +35,16 @@ export const Input = styled(Field)`
 	&:focus + ${InputBorder}{
 		width: 100%;
 	}
+	::placeholder {
+		text-align: center;
+	}
 `;
 export const InputLabel = styled.label`
 	display: block;
 	position: relative;
 	width: 300px;
 `;
+export const StyledErrorMessage = styled(ErrorMessage)`
+	text-align: center;
+	margin-top: 10px;
+` 
