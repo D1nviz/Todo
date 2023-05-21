@@ -20,13 +20,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.wrapper {
-  max-width:440px;
-  border-radius: 45px;
-  margin: 30px auto;
-  padding: 30px;
-  background-color: rgb(24, 24, 24);
-}
 
 .item-enter {
   opacity: 0;

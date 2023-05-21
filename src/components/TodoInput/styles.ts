@@ -1,6 +1,6 @@
 import styled from "styled-components";
-
 import { Field, ErrorMessage } from "formik";
+
 export const InputContainer = styled.div`
 	margin: 20px auto;
 	width: 100%;
@@ -47,4 +47,4 @@ export const InputLabel = styled.label`
 export const StyledErrorMessage = styled(ErrorMessage)`
 	text-align: center;
 	margin-top: 10px;
-` 
+`;

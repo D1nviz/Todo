@@ -1,5 +1,5 @@
-import React, { FC, useCallback } from "react";
-import { ItemsContainer, Item, Tool, Tools, Text } from "./styles";
+import React, { FC } from "react";
+import { ItemsContainer, Item, Tool, Tools, Text, CheckBoxContainer, CheckBox} from "./styles";
 import { IoCloseSharp } from "react-icons/io5";
 import { BiPencil } from "react-icons/bi";
 import { useAppDispatch } from "../../hooks/redux";
@@ -15,19 +15,21 @@ const TodoListItem: FC<TodoListItemProps> = ({ todo }) => {
 
 	const completeHandler = (e: React.MouseEvent<HTMLParagraphElement>) => {
 		const complete = {
-			...todo, 
-			isCompleted: !isCompleted
-		}
-		dispatch(todoCompleted(complete))
-	}
+			...todo,
+			isCompleted: !isCompleted,
+		};
+		dispatch(todoCompleted(complete));
+	};
 
 	return (
 		<ItemsContainer>
 			<Item>
-				<Text 
-					onClick={completeHandler}
-					isCompleted={isCompleted}
-				>{task}</Text>
+				<CheckBoxContainer>
+					<CheckBox/>
+				</CheckBoxContainer>
+				<Text onClick={completeHandler} isCompleted={isCompleted}>
+					{task}
+				</Text>
 				<Tools>
 					<Tool>
 						<BiPencil size="40px" color="#8361d9" />
