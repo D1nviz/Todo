@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 interface ITextProps {
 	isCompleted: boolean;
@@ -6,25 +6,39 @@ interface ITextProps {
 export const ItemsContainer = styled.div`
 	margin: 0 auto;
 	width: 100%;
-	background-color: #272626;
+	border-bottom: 2px solid #4443435f;
 	padding: 0 15px;
-	border-radius: 40px;
-	transition: all .2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+
 	:hover {
-		transform: scale(1.02)
+		transform: scale(1.01);
+		background-color: #4443435f;
+		border-radius: 5px;
 	}
 `;
 export const Item = styled.div`
-	margin-top: 10px;
+	padding-top: 10px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 `;
-export const Text = styled.p<ITextProps>`
-  font-size: 18px;
-	padding: 15px 0;
-	cursor: pointer;
-	text-decoration: ${({ isCompleted }) => (isCompleted ? 'line-through' : 'none')};
+
+export const TextContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+`;
+export const Text = styled.input<ITextProps>`
+	font-size: 18px;
+	color: rgb(218, 219, 217);
+	background-color: inherit;
+	border: none;
+	padding: 15px 0 15px 10px;
+	text-decoration: ${({ isCompleted }) =>
+		isCompleted ? "line-through" : "none"};
+	:focus {
+		outline: none;
+	}
 `;
 export const Tools = styled.div`
 	width: 80px;
@@ -38,82 +52,64 @@ export const Tool = styled.button`
 	border: 0px solid transparent;
 	background-color: inherit;
 	border-radius: 1.25em;
-	transition: all .2s linear;
+	transition: all 0.2s linear;
 	cursor: pointer;
 	:hover {
 		transform: scale(1.1);
 	}
 `;
 
-
-const jellyAnimation = keyframes`
-  from {
-    transform: scale(1, 1);
-  }
-
-  30% {
-    transform: scale(1.25, 0.75);
-  }
-
-  40% {
-    transform: scale(0.75, 1.25);
-  }
-
-  50% {
-    transform: scale(1.15, 0.85);
-  }
-
-  65% {
-    transform: scale(0.95, 1.05);
-  }
-
-  75% {
-    transform: scale(1.05, 0.95);
-  }
-
-  to {
-    transform: scale(1, 1);
-  }
+export const CheckBoxContainer = styled.label`
+	display: block;
+	position: relative;
+	cursor: pointer;
+	font-size: 20px;
+	user-select: none;
+	overflow: hidden;
 `;
+export const CheckMark = styled.div`
+	position: relative;
+	top: 0;
+	left: 0;
+	height: 1.3em;
+	width: 1.3em;
+	border: 2px solid #414141;
+	transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
-export const CheckBoxContainer = styled.div`
+	::after {
+		content: "";
+		position: absolute;
+		left: 0.45em;
+		top: -2em;
+		width: 0.25em;
+		height: 0.5em;
+		border: solid white;
+		border-width: 0 0.15em 0.15em 0;
+		transform: rotate(45deg);
+		transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+	::before {
+		left: 0.45em;
+		top: 2em;
+		width: 0.25em;
+		height: 0.5em;
+		border: solid white;
+		border-width: 0 0.15em 0.15em 0;
+		transform: rotate(45deg);
+	}
 `;
 export const CheckBox = styled.input`
-	position: relative;
-	top: 1px;
-	width: 27px;
-	height: 27px;
-	border: 1px solid #c8ccd4;
-	border-radius: 3px;
-	transition: all 0.1s ease;
-	cursor: pointer;
-	display: block;
-	:after {
-	content: '';
 	position: absolute;
-	top: 2px;
-	left: 8px;
-	width: 7px;
-	height: 14px;
 	opacity: 0;
-	transform: rotate(45deg) scale(0);
-	border-right: 2px solid #fff;
-	border-bottom: 2px solid #fff;
-	transition: all 0.3s ease;
-	transition-delay: 0.15s;
-	:checked  {
-		border-color: transparent;
-		background: #6871f1;
-		animation: ${jellyAnimation} 0.6s ease;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+	:checked ~ ${CheckMark} {
+		border-image: linear-gradient(-45deg, #da3a3a 0%, #8361d9 100%);
+		border-image-slice: 1;
+		::after {
+			top: 0.25em;
+		}
 	}
-	:checked::after {
-		opacity: 1;
- 		transform: rotate(45deg) scale(1);
-	}
-}
-`
-
-
-
-
-
+`;

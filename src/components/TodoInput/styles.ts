@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Field, ErrorMessage } from "formik";
 
 export const InputContainer = styled.div`
-	margin: 20px auto;
+	margin: 0 auto;
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -15,7 +15,7 @@ export const InputBorder = styled.span`
   bottom: 0;
   left: 0;
   height: 3px;
-  background: linear-gradient(90deg, #da3a3a 0%,   #8361d9 100%);
+  background: linear-gradient(90deg, #8361d9 0%, #da3a3a 100%);
   transition: width 0.4s cubic-bezier(0.42, 0, 0.58, 1.00);
 `;
 export const Input = styled(Field)`

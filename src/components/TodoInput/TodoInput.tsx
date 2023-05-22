@@ -12,7 +12,7 @@ import {
 import { useAppDispatch } from "../../hooks/redux";
 import { todoCreated } from "../../Store/reducers/TodoSlice";
 
-const TodoInput: FC = () => {
+const TodoInput: FC = ():JSX.Element => {
 	const dispatch = useAppDispatch();
 
 	return (

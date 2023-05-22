@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import type { PayloadAction } from '@reduxjs/toolkit'
 import { ITodo } from '../../models/ITodo';
 
 
@@ -12,12 +13,12 @@ const initialState: TodoState = {
     {
       id: uuidv4(),
       task: "Do homework",
-      isCompleted: false,
+      isCompleted: true,
     },
     {
       id: uuidv4(),
       task: "Make money",
-      isCompleted: true,
+      isCompleted: false,
     },
     {
       id: uuidv4(),
@@ -31,29 +32,24 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    todoCreated: (state, action) => {
+    todoCreated: (state, action: PayloadAction<ITodo>) => {
       state.todos.push(action.payload);
-      console.log(state)
     },
-    todoDeleted: (state, action) => {
+    todoDeleted: (state, action: PayloadAction<string>) => {
       state.todos = state.todos.filter(item => item.id !== action.payload);
-      console.log("todo deleted");
     },
-    todoCompleted: (state, action) => {
-      const { id, isCompleted } = action.payload;
-      const todo = state.todos.find(todo => todo.id === id);
-      if (todo) {
-        Object.assign(todo, { isCompleted });
-      }
+    todoUpdated: (state, action: PayloadAction<ITodo>) => {
+      const { id } = action.payload;
+      const todoIndex = state.todos.findIndex(todo => todo.id === id);
+      state.todos[todoIndex] = action.payload;
+      console.log("updated")
+
     },
-    todoRedacted: (state, action) => {
-      /* todosAdapter.updateOne(state, action.payload) */
-    }
   }
 })
 export const { actions, reducer } = todoSlice;
 export const {
   todoCreated,
   todoDeleted,
-  todoCompleted,
-  todoRedacted } = actions;
+  todoUpdated
+} = actions;

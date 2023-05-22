@@ -4,12 +4,12 @@ import TodoInput from "../TodoInput/TodoInput";
 import TodoList from "../TodoList/TodoList";
 import { Container } from "../../styles";
 
-const App: FC = () => {
+const App: FC = ():JSX.Element => {
 	return (
 		<Container>
 			<TodoHeader />
+			<TodoList/>
 			<TodoInput />
-			<TodoList />
 		</Container>
 	);
 };

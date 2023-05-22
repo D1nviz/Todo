@@ -5,8 +5,8 @@ import TodoListItem from "../TodoListItem/TodoListItem";
 
 import { TodoListContainer, EmptyList } from "./styles";
 
-const TodoList: FC = () => {
-	const todos = useAppSelector((state) => state.reducer.todos);
+const TodoList: FC = ():JSX.Element=> {
+	const todos = useAppSelector(state=> state.reducer.todos);
 	return (
 		<TodoListContainer>
 			{todos.length !== 0 ? (
