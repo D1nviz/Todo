@@ -40,8 +40,8 @@ const TodoInput: FC = (): JSX.Element => {
 						"POST",
 						JSON.stringify(newTodo)
 					)
-					.then(() => dispatch(todoCreated(newTodo)))
-					.catch((e) => console.log(e));
+						.then(() => dispatch(todoCreated(newTodo)))
+						.catch((e) => console.log(e));
 					resetForm();
 				}}
 			>

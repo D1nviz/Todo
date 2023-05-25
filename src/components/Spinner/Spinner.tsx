@@ -1,17 +1,17 @@
-import { Loader } from "./styles";
+import { Loader, Square } from "./styles";
 
 const Spinner = () => {
 	return (
 		<Loader>
-			<div className="square-1"/>
-			<div className="square-2"/>
-			<div className="square-3"/>
-			<div className="square-4"/>
-			<div className="square-5"/>
-			<div className="square-6"/>
-			<div className="square-7"/>
-			<div className="square-8"/>
-			<div className="square-9"/>
+			<Square className="square-1" />
+			<Square className="square-2" />
+			<Square className="square-3" />
+			<Square className="square-4" />
+			<Square className="square-5" />
+			<Square className="square-6" />
+			<Square className="square-7" />
+			<Square className="square-8" />
+			<Square className="square-9" />
 		</Loader>
 	);
 };

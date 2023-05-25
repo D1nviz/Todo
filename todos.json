@@ -1,8 +1,18 @@
 {
   "todos": [
     {
-      "id": "4ab04737-2061-4e2d-8ac9-ec6f1538379e",
-      "task": "Няшитись",
+      "id": "f9337076-3fed-4ea5-b71f-44fb7e9151bb",
+      "task": "Do something",
+      "isCompleted": false
+    },
+    {
+      "id": "3c98391f-94b2-4b7e-afea-c3439a8cd8b2",
+      "task": "Create project",
+      "isCompleted": true
+    },
+    {
+      "id": "2acd2577-bdfc-4b65-91bc-5ae43fcd892f",
+      "task": "Take out the garbage",
       "isCompleted": false
     }
   ]
