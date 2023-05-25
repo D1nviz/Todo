@@ -9,7 +9,7 @@ export const InputContainer = styled.div`
 `;
 
 export const InputBorder = styled.span`
-	 position: absolute;
+	position: absolute;
   background: var(--border-after-color);
   width: 0%;
   bottom: 0;

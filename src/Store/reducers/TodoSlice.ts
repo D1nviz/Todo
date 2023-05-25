@@ -1,55 +1,48 @@
-import { v4 as uuidv4 } from 'uuid';
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { ITodo } from '../../models/ITodo';
-
-
-export interface TodoState {
-  todos: ITodo[];
-}
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { ITodo, TodoState } from '../../models/ITodo';
+import { fetchTodos } from './ActionCreators';
 
 const initialState: TodoState = {
-  todos: [
-    {
-      id: uuidv4(),
-      task: "Do homework",
-      isCompleted: true,
-    },
-    {
-      id: uuidv4(),
-      task: "Make money",
-      isCompleted: false,
-    },
-    {
-      id: uuidv4(),
-      task: "Make dinner",
-      isCompleted: false,
-    }
-  ]
-}
+  todos: [],
+  isLoading: false,
+  error: ""
+};
 
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    todoCreated: (state, action: PayloadAction<ITodo>) => {
+
+    todoCreated: (state, action) => {
       state.todos.push(action.payload);
     },
-    todoDeleted: (state, action: PayloadAction<string>) => {
+    todoDeleted: (state, action) => {
       state.todos = state.todos.filter(item => item.id !== action.payload);
     },
-    todoUpdated: (state, action: PayloadAction<ITodo>) => {
-      const { id } = action.payload;
-      const todoIndex = state.todos.findIndex(todo => todo.id === id);
+    todoUpdated: (state, action) => {
+      const todoIndex = state.todos.findIndex(todo => todo.id === action.payload.id);
       state.todos[todoIndex] = action.payload;
-      console.log("updated")
-
+    }
+  },
+  extraReducers: {
+    [fetchTodos.fulfilled.type]: (state, action: PayloadAction<ITodo[]>) => {
+      state.isLoading = false;
+      state.error = "";
+      state.todos = action.payload;
     },
+    [fetchTodos.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchTodos.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.error = action.payload
+    }
   }
-})
+});
+
 export const { actions, reducer } = todoSlice;
 export const {
   todoCreated,
   todoDeleted,
-  todoUpdated
+  todoUpdated,
 } = actions;

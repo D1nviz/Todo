@@ -9,7 +9,6 @@ export const ItemsContainer = styled.div`
 	border-bottom: 2px solid #4443435f;
 	padding: 0 15px;
 	transition: all 0.2s ease-in-out;
-
 	:hover {
 		transform: scale(1.01);
 		background-color: #4443435f;
@@ -28,7 +27,7 @@ export const TextContainer = styled.div`
 	align-items: center;
 	justify-content: space-around;
 `;
-export const Text = styled.input<ITextProps>`
+export const TextInput = styled.input<ITextProps>`
 	font-size: 18px;
 	color: rgb(218, 219, 217);
 	background-color: inherit;

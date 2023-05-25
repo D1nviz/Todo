@@ -1,11 +1,14 @@
 import React, { FC, useRef, useState, useEffect } from "react";
 import useDebounce from "../../hooks/useDebounce";
+import { useAppDispatch } from "../../hooks/redux";
+import { todoDeleted, todoUpdated } from "../../Store/reducers/TodoSlice";
+import { ITodo } from "../../models/ITodo";
 import {
 	ItemsContainer,
 	Item,
 	Tool,
 	Tools,
-	Text,
+	TextInput,
 	CheckBoxContainer,
 	CheckBox,
 	CheckMark,
@@ -13,9 +16,7 @@ import {
 } from "./styles";
 import { IoCloseSharp } from "react-icons/io5";
 import { BiPencil } from "react-icons/bi";
-import { useAppDispatch } from "../../hooks/redux";
-import { todoDeleted, todoUpdated } from "../../Store/reducers/TodoSlice";
-import { ITodo } from "../../models/ITodo";
+import { useHttp } from "../../hooks/http.hook";
 
 interface TodoListItemProps {
 	todo: ITodo;
@@ -23,40 +24,55 @@ interface TodoListItemProps {
 const TodoListItem: FC<TodoListItemProps> = ({ todo }): JSX.Element => {
 	const { id, task, isCompleted } = todo;
 
+	const { request } = useHttp();
+	const dispatch = useAppDispatch();
+
 	const [isReadonly, setIsReadonly] = useState<boolean>(true);
-	const [value, setValue] = useState<string>(task);
+	const [isTaskCompleted, setIsTaskCompleted] = useState<boolean>(isCompleted);
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+	const [taskValue, setTaskValue] = useState<string>(task);
 
-	const debouncedValue: string = useDebounce<string>(value, 500);
+	const textInputRef = useRef<HTMLInputElement>(null);
 
-	const updateTodo = () => {
+	const debouncedValue: string = useDebounce<string>(taskValue, 500);
+
+	useEffect(() => {
 		const updatedTask = {
 			...todo,
 			task: debouncedValue,
+			isCompleted: isTaskCompleted,
 		};
-		dispatch(todoUpdated(updatedTask));
+		request(
+			`http://localhost:3001/todos/${id}`,
+			"PUT",
+			JSON.stringify(updatedTask)
+		)
+			.then(() => dispatch(todoUpdated(updatedTask)))
+			.catch((e) => console.log(e));
+	}, [debouncedValue, isTaskCompleted]);
+
+	const onDelete = () => {
+		setIsButtonDisabled(true);
+		request(`http://localhost:3001/todos/${id}`, "DELETE")
+			.then(() => dispatch(todoDeleted(id)))
+			.catch((e) => console.log(e));
 	};
 
-	useEffect(updateTodo, [debouncedValue]);
-	const dispatch = useAppDispatch();
-
-	const texRef = useRef<HTMLInputElement>(null);
-
-	const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setValue(e.target.value);
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setTaskValue(e.target.value);
 	};
 
-	const focusHandler = () => {
-		if (texRef.current) {
+	const onFocus = () => {
+		if (textInputRef.current) {
 			setIsReadonly(false);
-			texRef.current.focus();
+			textInputRef.current.focus();
 		}
 	};
-	const completeHandler = () => {
-		const complete = {
-			...todo,
-			isCompleted: !isCompleted,
-		};
-		dispatch(todoUpdated(complete));
+
+	const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Escape" || e.key === "Enter") {
+			setIsReadonly(true);
+		}
 	};
 
 	return (
@@ -65,26 +81,27 @@ const TodoListItem: FC<TodoListItemProps> = ({ todo }): JSX.Element => {
 				<TextContainer>
 					<CheckBoxContainer>
 						<CheckBox
-							checked={isCompleted}
-							onChange={completeHandler}
+							checked={isTaskCompleted}
+							onChange={() => setIsTaskCompleted(!isTaskCompleted)}
 							type="checkbox"
 						/>
 						<CheckMark />
 					</CheckBoxContainer>
-					<Text
-						ref={texRef}
+					<TextInput
+						ref={textInputRef}
 						readOnly={isReadonly}
-						value={value}
-						onChange={changeHandler}
+						onKeyDown={onKeyDown}
+						value={taskValue}
+						onChange={onChange}
 						isCompleted={isCompleted}
 						onBlur={() => setIsReadonly(true)}
 					/>
 				</TextContainer>
 				<Tools>
-					<Tool onClick={focusHandler}>
+					<Tool disabled={isButtonDisabled} onClick={onFocus}>
 						<BiPencil size="40px" color="#8361d9" />
 					</Tool>
-					<Tool onClick={() => dispatch(todoDeleted(id))}>
+					<Tool disabled={isButtonDisabled} onClick={onDelete}>
 						<IoCloseSharp color="#da3a3a" size="40px" />
 					</Tool>
 				</Tools>

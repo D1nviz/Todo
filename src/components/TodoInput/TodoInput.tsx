@@ -2,6 +2,8 @@ import { FC } from "react";
 import { Form, Formik } from "formik";
 import { v4 as uuidv4 } from "uuid";
 import * as Yup from "yup";
+import { useAppDispatch } from "../../hooks/redux";
+import { todoCreated } from "../../Store/reducers/TodoSlice";
 import {
 	Input,
 	InputContainer,
@@ -9,11 +11,11 @@ import {
 	InputBorder,
 	StyledErrorMessage,
 } from "./styles";
-import { useAppDispatch } from "../../hooks/redux";
-import { todoCreated } from "../../Store/reducers/TodoSlice";
+import { useHttp } from "../../hooks/http.hook";
 
-const TodoInput: FC = ():JSX.Element => {
+const TodoInput: FC = (): JSX.Element => {
 	const dispatch = useAppDispatch();
+	const { request } = useHttp();
 
 	return (
 		<InputContainer>
@@ -28,13 +30,18 @@ const TodoInput: FC = ():JSX.Element => {
 						.max(20, "Maximum 20 symbols"),
 				})}
 				onSubmit={(todo, { resetForm }) => {
-					dispatch(
-						todoCreated({
-							id: uuidv4(),
-							task: todo.todo,
-							isCompleted: false,
-						})
-					);
+					const newTodo = {
+						id: uuidv4(),
+						task: todo.todo,
+						isCompleted: false,
+					};
+					request(
+						"http://localhost:3001/todos",
+						"POST",
+						JSON.stringify(newTodo)
+					)
+					.then(() => dispatch(todoCreated(newTodo)))
+					.catch((e) => console.log(e));
 					resetForm();
 				}}
 			>
